@@ -3,6 +3,7 @@ include $(AM_HOME)/am/arch/isa/riscv64.mk
 AM_SRCS := nutshell/isa/riscv/trm.c \
            nutshell/common/mainargs.S \
            nutshell/common/uartlite.c \
+           noop/common/serial-16550.c \
            nutshell/common/ioe.c \
            nutshell/common/timer.c \
            dummy/input.c \
