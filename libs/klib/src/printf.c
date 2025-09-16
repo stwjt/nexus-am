@@ -868,8 +868,28 @@ int printf_(const char* format, ...)
   va_end(va);
   return ret;
 }
+
+void lock(volatile uint64_t *);
+void release(volatile uint64_t *);
+volatile uint64_t print_lock = 0;
+int atomic_printf_(const char* format, ...)
+{
+  va_list va;
+  lock(&print_lock);
+  va_start(va, format);
+  char buffer[1];
+  const int ret = _vsnprintf(_out_char, buffer, (size_t)-1, format, va);
+  va_end(va);
+  release(&print_lock);
+  return ret;
+}
 #else
 int printf_(const char* format, ...)
+{
+  return 0;
+}
+
+int atomic_printf_(const char *format, ...)
 {
   return 0;
 }
