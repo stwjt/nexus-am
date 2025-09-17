@@ -2,10 +2,14 @@ ENTRY(_start)
 
 SECTIONS {
   . = ORIGIN(ram);
-  .text : {
-    *(entry)
-    *(.text)
-  }
+  .text : ALIGN(4) {
+      KEEP(*(entry))
+      . = ALIGN(4);
+      __gap_begin = .;
+      . = . + 0x2000;
+      __gap_end = .;
+      *(.text .text.*)
+    } > ram
   etext = .;
   _etext = .;
   .rodata : {
